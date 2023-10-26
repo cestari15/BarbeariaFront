@@ -1,0 +1,15 @@
+.footer{
+    height:150px;
+    display: flex;
+    align-items: center;
+    background-color: blueviolet;
+    color: white;
+    margin-top: auto;
+}
+
+.footer span{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: antiquewhite;
+    align-items: center;
+    margin-left: 725px;
+}
