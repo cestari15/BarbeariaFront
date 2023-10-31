@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { Component, useState, ChangeEvent, FormEvent, useEffect } from 'react';
-
+import Header from './Header';
 
 import styles from "../App.module.css";
+import '../components/style.css'
 import { CLienteCadastroInterface } from '../interfaces/ClienteCadastroInterface';
 
 const ListagemClientes = () => {
@@ -48,6 +49,24 @@ const ListagemClientes = () => {
     }
 
 
+    const buscarPorCpf = (e: FormEvent) => {
+        e.preventDefault();
+
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/cliente/find/cpf/{cpf}');
+                setCliente(response.data.data);
+
+
+            } catch (error) {
+                setError("Ocorreu um erro");
+                console.log(error);
+            }
+        }
+        fetchData();
+    }
+
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -65,31 +84,63 @@ const ListagemClientes = () => {
     }, []);
 
     return (
-        <div>
+       
+        <div className=''>
 
-            <div className='col-md mb-3'>
-                <div className='card'>
-                    <div className='card-body'>
-                        <h5 className='card-title'>
-                            Pesquisar
-                        </h5>
-                        <form onSubmit={buscar} className='row'>
-                            <div className='col-10'>
-                                <input type="text" name='pesquisa' className='form-control'
-                                    onChange={handleState} />
+           
+            <div className='col-md-10 '>
+                <div className='col-md mb-3'>
+                    <div className='card'>
+                        <div className='card-body'>
 
-                            </div>
-                            <div className='col-1'>
-                                <button type='submit' className='btn btn-success'>Pesquisar</button>
-                            </div>
+                            <h5 className='card-title'>
+                                Pesquisar por nome
+                            </h5>
+                            <form onSubmit={buscar} className='row'>
+                                <div className='col-10'>
+                                    <input type="text" name='pesquisa' className='form-control'
+                                        onChange={handleState} />
 
-                        </form>
+                                </div>
+                                <div className='col-1'>
+                                    <button className="botao type1" type='submit'>
+                                        <span className="btn-txt">Pesquisar</span>
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div className='col-md mb-3'>
+                    <div className='card'>
+                        <div className='card-body'>
+
+                            <h5 className='card-title'>
+                                Pesquisar por CPF
+                            </h5>
+                            <form onSubmit={buscarPorCpf} className='row'>
+                                <div className='col-10'>
+                                    <input type="text" name='pesquisa' className='form-control'
+                                        onChange={handleState} />
+
+                                </div>
+                                <div className='col-1'>
+                                    <button className="botao type1" type='submit'>
+                                        <span className="btn-txt">Pesquisar</span>
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
             <main className={styles.main}>
-                <div className='container'>
+                <div className='container mw-100 w-auto'>
                     <div className='card'>
                         <div className='card-body'>
                             <h5 className='card-title'> Listagem de Clientes</h5>
@@ -141,8 +192,8 @@ const ListagemClientes = () => {
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }
 

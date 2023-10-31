@@ -1,10 +1,3 @@
-.header{
-    background-color: blueviolet;
-    color: whitesmoke;
-    text-align: center;
-    padding: 1em;
-}
-
 .botao {
     height: 50px;
     width: 200px;
@@ -48,13 +41,6 @@
     visibility: visible;
     transform: scale(100) translateX(2px);
   }
-
-
-
-
-
-
-
 
 
 
