@@ -5,6 +5,7 @@ import Header from './Header';
 import styles from "../App.module.css";
 import '../components/style.css'
 import { CLienteCadastroInterface } from '../interfaces/ClienteCadastroInterface';
+import { Link } from 'react-router-dom';
 
 const ListagemClientes = () => {
 
@@ -84,10 +85,10 @@ const ListagemClientes = () => {
     }, []);
 
     return (
-       
+
         <div className=''>
 
-           
+
             <div className='col-md-10 '>
                 <div className='col-md mb-3'>
                     <div className='card'>
@@ -182,7 +183,7 @@ const ListagemClientes = () => {
                                             <td>{cliente.estado}</td>
                                             <td>{cliente.complemento}</td>
                                             <td>
-                                                <a href="#" className='btn btn-primary btn-sm'>Editar</a>
+                                                <Link to={"/editarCliente/" + cliente.id} className='btn btn-primary btn-sm'>Editar</Link>
                                                 <a href="#" className='btn btn-danger btn-sm'>Excluir</a>
                                             </td>
                                         </tr>

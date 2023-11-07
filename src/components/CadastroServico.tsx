@@ -7,7 +7,7 @@ const CadastroServico = () => {
     const [nome, setNome] = useState<string>("");
     const [descricao, setDescricao] = useState<string>("");
     const [duracao, setDuracao] = useState<string>("");
-    const [preco, setPreco] = useState<number>();
+    const [preco, setPreco] = useState<string>();
 
     const cadastrarServico = (e: FormEvent) => {
         e.preventDefault();
@@ -43,7 +43,7 @@ const CadastroServico = () => {
             setDuracao(e.target.value);
         }
         if (e.target.name === "preco") {
-            setPreco(e.target.valueAsNumber);
+            setPreco(e.target.value);
         }
     }
 
@@ -72,7 +72,7 @@ const CadastroServico = () => {
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="preco" className='form-label'>Preço</label>
-                                    <input type="text" name='preco' className='form-control' required onChange={handleState} />
+                                    <input type="number" name='preco' className='form-control' required onChange={handleState} />
                                 </div>
                                 <div className='col-12'>
                                     <button type='submit' className='btn btn-success btn-sm'>Cadastrar</button>

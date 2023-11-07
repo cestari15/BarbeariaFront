@@ -56,7 +56,30 @@ console.log(response.data)
             });
     }
 
+    const findCep = (e: FormEvent) => {
 
+        e.preventDefault();
+
+        fetch('https://viacep.com.br/ws/' + cep + '/json/',
+            {
+                method: 'GET'
+            }
+        ).then(response => response.json())
+            .then(
+                data => {
+                    console.log(data);
+
+                    setCidade(data.localidade);
+
+                    // setCep(data.cep);
+                    setEstado(data.uf);
+
+
+                }
+            )
+
+
+    }
 
     const handleState = (e: ChangeEvent <HTMLInputElement>)=>{
         if(e.target.name === "nome"){
@@ -140,12 +163,12 @@ console.log(response.data)
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="cidade" className='form-label'>Cidade</label>
-                                    <input type="text" name='cidade' className='form-control' required onChange={handleState}/>
+                                    <input type="text" name='cidade'value={cidade} className='form-control' required onChange={handleState}/>
                                 </div>
 
                                 <div className='col-6'>
                                     <label htmlFor="estado" className='form-label'>Estado</label>
-                                    <input type="text" name='estado' className='form-control' required onChange={handleState}/>
+                                    <input type="text" name='estado' value={estado} className='form-control' required onChange={handleState}/>
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="pais" className='form-label'>País</label>
@@ -162,11 +185,11 @@ console.log(response.data)
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="bairro" className='form-label'>Bairro</label>
-                                    <input type="text" name='bairro' className='form-control' required onChange={handleState}/>
+                                    <input type="text" name='bairro'  className='form-control' required onChange={handleState}/>
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="cep" className='form-label'>Cep</label>
-                                    <input type="text" name='cep' className='form-control' required onChange={handleState}/>
+                                    <input type="text" name='cep' onBlur={findCep} className='form-control' required onChange={handleState}/>
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="complemento" className='form-label'>Complemento</label>
@@ -174,7 +197,7 @@ console.log(response.data)
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="password" className='form-label'>Senha</label>
-                                    <input type="text" name='password' className='form-control' required onChange={handleState}/>
+                                    <input type="password" name='password' className='form-control' required onChange={handleState}/>
                                 </div>
                                 <div className='col-12'>
                                     <button type='submit' className='btn btn-success btn-sm'>Cadastrar</button>

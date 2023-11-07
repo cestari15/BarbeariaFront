@@ -5,6 +5,7 @@ import React,{Component, useState, ChangeEvent, FormEvent, useEffect} from "reac
 import styles from "../App.module.css";
 
 import {ProfissionalCadastroInterface} from '../interfaces/ProfissionalCadastroInterface';
+import { Link } from "react-router-dom";
 
 const ListagemProfissional = ()=>{
     console.log(Response)
@@ -73,7 +74,7 @@ const ListagemProfissional = ()=>{
                                         <td>{profissional.salario}</td>
                                         <td>{profissional.complemento}</td>
                                         <td>
-                                            <a href="#" className='btn btn-primary btn-sm'>Editar</a>
+                                        <Link to={"/editarProfissional/"+ profissional.id} className='btn btn-primary btn-sm'>Editar</Link>
                                             <a href="#" className='btn btn-danger btn-sm'>Excluir</a>
                                         </td>
                                     </tr>
