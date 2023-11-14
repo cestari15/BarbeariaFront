@@ -5,7 +5,7 @@ import Header from './Header';
 import styles from "../App.module.css";
 import '../components/style.css'
 import { CLienteCadastroInterface } from '../interfaces/ClienteCadastroInterface';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ListagemClientes = () => {
 
@@ -14,6 +14,20 @@ const ListagemClientes = () => {
     const [cliente, setCliente] = useState<CLienteCadastroInterface[]>([]);
     const [error, setError] = useState("");
     const [pesquisa, setPesquisa] = useState<string>('');
+    const navigate = useNavigate();
+
+
+
+    function handleDelete(id: number) {
+        const confirm = window.confirm('Você tem certeza que deseja excluir?');
+        if (confirm)
+            axios.delete('http://127.0.0.1:8000/api/cliente/delete/' + id)
+                .then(function (response) {
+                    window.location.href = "/cliente/listagem"
+                }).catch(function (error) {
+                    console.log('Ocorreu um erro ao excluir');
+                })
+    }
 
 
     const handleState = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,22 +64,7 @@ const ListagemClientes = () => {
     }
 
 
-    const buscarPorCpf = (e: FormEvent) => {
-        e.preventDefault();
-
-        async function fetchData() {
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/api/cliente/find/cpf/{cpf}');
-                setCliente(response.data.data);
-
-
-            } catch (error) {
-                setError("Ocorreu um erro");
-                console.log(error);
-            }
-        }
-        fetchData();
-    }
+ 
 
 
     useEffect(() => {
@@ -116,29 +115,8 @@ const ListagemClientes = () => {
 
 
 
-                <div className='col-md mb-3'>
-                    <div className='card'>
-                        <div className='card-body'>
 
-                            <h5 className='card-title'>
-                                Pesquisar por CPF
-                            </h5>
-                            <form onSubmit={buscarPorCpf} className='row'>
-                                <div className='col-10'>
-                                    <input type="text" name='pesquisa' className='form-control'
-                                        onChange={handleState} />
 
-                                </div>
-                                <div className='col-1'>
-                                    <button className="botao type1" type='submit'>
-                                        <span className="btn-txt">Pesquisar</span>
-                                    </button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
             <main className={styles.main}>
                 <div className='container mw-100 w-auto'>
@@ -184,7 +162,7 @@ const ListagemClientes = () => {
                                             <td>{cliente.complemento}</td>
                                             <td>
                                                 <Link to={"/editarCliente/" + cliente.id} className='btn btn-primary btn-sm'>Editar</Link>
-                                                <a href="#" className='btn btn-danger btn-sm'>Excluir</a>
+                                                <a onClick={e => handleDelete(cliente.id)} className='btn btn-danger btn-sm'>Excluir</a>
                                             </td>
                                         </tr>
                                     ))}

@@ -4,18 +4,31 @@ import axios from "axios";
 import styles from "../App.module.css";
 
 import { ServicoCadastroInterface } from "../interfaces/ServicoCadastroInterface";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ListagemServico = () => {
     console.log(Response)
     const [servico, setServico] = useState<ServicoCadastroInterface[]>([]);
     const [error, setError] = useState("");
     const [pesquisa, setPesquisa] = useState<string>('');
+    const   navigate = useNavigate();
 
     const handleState = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === "pesquisa") {
             setPesquisa(e.target.value);
         }
+    }
+
+
+    function handleDelete(id: number){
+        const confirm = window.confirm('Você tem certeza que deseja excluir?');
+        if (confirm)
+            axios.delete('http://127.0.0.1:8000/api/servico/delete/' + id)
+        .then(function(response){
+            window.location.href = "/servicos/listagem"
+        }).catch(function(error){
+            console.log('Ocorreu um erro ao excluir');
+        })
     }
 
     const buscar = (e: FormEvent) => {
@@ -102,6 +115,7 @@ const ListagemServico = () => {
                                         <th>ID</th>
                                         <th>Nome</th>
                                         <th>Duração</th>
+                                        <th>Descrição</th>
                                         <th>Preço</th>
                                         <th>Ações</th>
                                     </tr>
@@ -112,10 +126,11 @@ const ListagemServico = () => {
                                             <td>{servico.id}</td>
                                             <td>{servico.nome}</td>
                                             <td>{servico.duracao}</td>
+                                            <td>{servico.descricao}</td>
                                             <td>{servico.preco}</td>
                                             <td>
                                                 <Link to={"/editarServico/" + servico.id} className='btn btn-primary btn-sm'>Editar</Link>
-                                                <a href="#" className='btn btn-danger btn-sm'>Excluir</a>
+                                                <a onClick={e => handleDelete(servico.id)} className='btn btn-danger btn-sm'>Excluir</a>
                                             </td>
                                         </tr>
                                     ))}

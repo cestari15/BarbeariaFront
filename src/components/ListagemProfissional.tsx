@@ -5,13 +5,27 @@ import React,{Component, useState, ChangeEvent, FormEvent, useEffect} from "reac
 import styles from "../App.module.css";
 
 import {ProfissionalCadastroInterface} from '../interfaces/ProfissionalCadastroInterface';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ListagemProfissional = ()=>{
     console.log(Response)
 
     const [profissional,setProfissional]=useState<ProfissionalCadastroInterface[]>([]);
     const [error,setError]=useState("");
+    const   navigate = useNavigate();
+
+
+
+    function handleDelete(id: number) {
+        const confirm = window.confirm('Você tem certeza que deseja excluir?');
+        if (confirm)
+            axios.delete('http://127.0.0.1:8000/api/profissional/delete/' + id)
+        .then(function(response){
+            window.location.href = "/profissional/listagem"
+        }).catch(function(error){
+            console.log('Ocorreu um erro ao excluir');
+        })
+    }
 
     useEffect(() =>{
         async function fetchData(){
@@ -26,6 +40,8 @@ const ListagemProfissional = ()=>{
 
         fetchData();
     },[]);
+
+
 
     return (
         <div>
@@ -75,7 +91,7 @@ const ListagemProfissional = ()=>{
                                         <td>{profissional.complemento}</td>
                                         <td>
                                         <Link to={"/editarProfissional/"+ profissional.id} className='btn btn-primary btn-sm'>Editar</Link>
-                                            <a href="#" className='btn btn-danger btn-sm'>Excluir</a>
+                                        <a onClick={e => handleDelete(profissional.id)} className='btn btn-danger btn-sm'>Excluir</a>
                                         </td>
                                     </tr>
                                 ))}
