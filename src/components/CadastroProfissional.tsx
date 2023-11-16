@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect, ChangeEvent, FormEvent, } from "
 import Footer from "./Footer";
 import HeaderProfissional from "./HeaderProfissional";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const CadastroProfissional = () => {
     const [nome, setNome] = useState<string>("");
@@ -51,7 +52,30 @@ const CadastroProfissional = () => {
                     "Content-Type": "application/json"
                 }
             }).then(function (response) {
-                console.log(response.data)
+                if(true == response.data.status){
+                    Swal.fire({
+                        title: "Cadastrado com sucesso",
+                        text: "redirecionando para Listagem...",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer:3000
+                      });
+
+                      window.setTimeout(()=>{
+                        window.location.href = "/profissional/listagem"
+                      },3600);
+                    console.log(response.data)
+                }
+                else{
+                    Swal.fire({
+                        title: "Erro",
+                        text: "O profissional não foi cadastrado",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer:3000
+                      });
+
+                }
             }).catch(function (error) {
                 console.log(error)
             })
@@ -74,6 +98,7 @@ const CadastroProfissional = () => {
 
                     // setCep(data.cep);
                     setEstado(data.uf);
+                    setPais(data.pais)
 
 
                 }
@@ -172,7 +197,7 @@ const CadastroProfissional = () => {
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="pais" className='form-label'>País</label>
-                                    <input type="text" name='pais' className='form-control' required onChange={handleState} />
+                                    <input type="text" name='pais' value={pais} className='form-control' required onChange={handleState} />
                                 </div>
 
                                 <div className='col-6'>
