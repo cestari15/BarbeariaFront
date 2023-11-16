@@ -2,6 +2,7 @@ import React, { Component, useState, ChangeEvent, FormEvent, useEffect } from 'r
 import Footer from './Footer';
 import Header from './Header';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 const CadastroClientes = () => {
 
 
@@ -50,7 +51,30 @@ console.log(dados)
                 }
             }
             ).then(function(response){
-console.log(response.data)
+                if(true == response.data.status){
+                    Swal.fire({
+                        title: "Cadastrado com sucesso",
+                        text: "redirecionando para Listagem...",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer:3000
+                      });
+
+                      window.setTimeout(()=>{
+                        window.location.href = "/cliente/listagem"
+                      },3600);
+                    console.log(response.data)
+                }
+                else{
+                    Swal.fire({
+                        title: "Erro",
+                        text: "O cliente não foi cadastrado",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer:3000
+                      });
+
+                }
             }).catch(function(error){
                 console.log(error)
             });
