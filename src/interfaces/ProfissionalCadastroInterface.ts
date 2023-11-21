@@ -14,5 +14,7 @@ export interface ProfissionalCadastroInterface{
     estado:string,
     complemento:string,
     salario:number,
+    data:string,
+    time:string,
     password:string
 }

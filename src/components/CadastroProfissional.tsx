@@ -52,28 +52,28 @@ const CadastroProfissional = () => {
                     "Content-Type": "application/json"
                 }
             }).then(function (response) {
-                if(true == response.data.status){
+                if (true === response.data.status) {
                     Swal.fire({
                         title: "Cadastrado com sucesso",
                         text: "redirecionando para Listagem...",
                         icon: "success",
                         showConfirmButton: false,
-                        timer:3000
-                      });
+                        timer: 3000
+                    });
 
-                      window.setTimeout(()=>{
+                    window.setTimeout(() => {
                         window.location.href = "/profissional/listagem"
-                      },3600);
+                    }, 3600);
                     console.log(response.data)
                 }
-                else{
+                else {
                     Swal.fire({
                         title: "Erro",
                         text: "O profissional não foi cadastrado",
                         icon: "error",
                         showConfirmButton: false,
-                        timer:3000
-                      });
+                        timer: 3000
+                    });
 
                 }
             }).catch(function (error) {
@@ -92,17 +92,41 @@ const CadastroProfissional = () => {
         ).then(response => response.json())
             .then(
                 data => {
-                    console.log(data);
 
                     setCidade(data.localidade);
-
-                    // setCep(data.cep);
                     setEstado(data.uf);
-                    setPais(data.pais)
+                    setRua(data.logradouro);
+                    setComplemento(data.complemento);
+                    setBairro(data.bairro)
+
+
+
+
+
+
 
 
                 }
-            )
+            ).catch(error => {
+
+
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "CEP não encontrado"
+                });
+            });
 
 
     }
@@ -183,6 +207,10 @@ const CadastroProfissional = () => {
                                     <input type="text" name='cpf' className='form-control' required onChange={handleState} />
                                 </div>
                                 <div className='col-6'>
+                                    <label htmlFor="cep" className='form-label'>Cep</label>
+                                    <input type="text" name='cep' onBlur={findCep} className='form-control' required onChange={handleState} />
+                                </div>
+                                <div className='col-6'>
                                     <label htmlFor="dataNascimento" className='form-label'>Sua Data de nascimento</label>
                                     <input type="date" name='dataNascimento' className='form-control' required onChange={handleState} />
                                 </div>
@@ -202,7 +230,7 @@ const CadastroProfissional = () => {
 
                                 <div className='col-6'>
                                     <label htmlFor="rua" className='form-label'>Rua</label>
-                                    <input type="text" name='rua' className='form-control' required onChange={handleState} />
+                                    <input type="text" name='rua' value={rua} className='form-control' required onChange={handleState} />
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="numero" className='form-label'>Numero</label>
@@ -210,19 +238,15 @@ const CadastroProfissional = () => {
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="bairro" className='form-label'>Bairro</label>
-                                    <input type="text" name='bairro' className='form-control' required onChange={handleState} />
-                                </div>
-                                <div className='col-6'>
-                                    <label htmlFor="cep" className='form-label'>Cep</label>
-                                    <input type="text" name='cep' onBlur={findCep} className='form-control' required onChange={handleState} />
-                                </div>
-                                <div className='col-6'>
-                                    <label htmlFor="complemento" className='form-label'>Complemento</label>
-                                    <input type="text" name='complemento' className='form-control' required onChange={handleState} />
+                                    <input type="text" name='bairro' value={bairro} className='form-control' required onChange={handleState} />
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="salario" className='form-label'>Salario</label>
                                     <input type="text" name='salario' className='form-control' required onChange={handleState} />
+                                </div>
+                                <div className='col-6'>
+                                    <label htmlFor="complemento" className='form-label'>Complemento</label>
+                                    <input type="text" name='complemento' value={complemento} className='form-control' required onChange={handleState} />
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="password" className='form-label'>Senha</label>
