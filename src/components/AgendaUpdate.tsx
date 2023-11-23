@@ -9,13 +9,14 @@ import axios from "axios";
 const EditarAgenda = () => {
 
 
-    const [id, setId] = useState<number>();
+   
     const [nome, setNome] = useState<string>("");
-    const [celular, setCelular] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [data,setData]=useState<string>("");
-    const [horario,setHorario]=useState<string>("");
-  
+    const [valor, setValor] = useState<string>("");
+    const [servico, setServico] = useState<number>();
+    const [cliente,setCliente]=useState<number>();
+    const [data_hora,setHorario]=useState<string>("");
+    const [tipo_pagamento,setPagamento]=useState<string>("");
+   
  
 
 
@@ -25,13 +26,15 @@ const EditarAgenda = () => {
         e.preventDefault();
 
         const dados = {
-            id: id,
-            nome: nome,
-            celular: celular,
-            email: email,
+            
+            data_hora:data_hora,
+            valor: valor,
+            servico: servico,
+            tipo_pagamento:tipo_pagamento,
+            cliente:cliente
         }
 
-        axios.put("http://127.0.0.1:8000/api/profissional/update",
+        axios.put("http://127.0.0.1:8000/api/agenda/update",
             dados,
             {
                 headers: {
@@ -49,11 +52,14 @@ const EditarAgenda = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/profissionais/find/" + parametro.id);
-                setNome(response.data.data.nome);
-                setCelular(response.data.data.celular);
-                setEmail(response.data.data.email);
-                setId(response.data.data.id);
+                const response = await axios.get("http://127.0.0.1:8000/api/agenda/find/" + parametro.id);
+                if(response.data.status === true){
+                    setNome(response.data.data.nome);
+                setValor(response.data.data.valor);
+                setServico(response.data.data.servico);
+                setPagamento(response.data.data.pagamento);
+                }
+                
             } catch (error) {
                 console.log("erro ao buscar dados da api")
             }
@@ -67,19 +73,19 @@ const EditarAgenda = () => {
         if(e.target.name === "nome"){
             setNome(e.target.value);
         }
-        if(e.target.name === "celular"){
-            setCelular(e.target.value);
+        if(e.target.name === "valor"){
+            setValor(e.target.value);
         }
-     
-        if(e.target.name === "email"){
-            setEmail(e.target.value);
+        if(e.target.name === "cliente"){
+            setCliente(e.target.valueAsNumber);
         }
-        if(e.target.name === "data"){
-            setData(e.target.value);
+        if(e.target.name === "servico"){
+            setServico(e.target.valueAsNumber);
         }
-        if(e.target.name === "horario"){
+        if(e.target.name === "data_hora"){
             setHorario(e.target.value);
         }
+       
     }
 
     return (
@@ -96,22 +102,20 @@ const EditarAgenda = () => {
                                     <input type="text" name='nome' className='form-control' required onChange={handleState} value={nome} />
                                 </div>
                                 <div className='col-6'>
-                                    <label htmlFor="celular" className='form-label'>Celular</label>
-                                    <input type="text" name='celular' className='form-control' required onChange={handleState} value={celular} />
+                                    <label htmlFor="valor" className='form-label'>Preço</label>
+                                    <input type="text" name='valor' className='form-control' required onChange={handleState} value={valor} />
                                 </div>
                                 <div className='col-6'>
-                                    <label htmlFor="email" className='form-label' >E-mail</label>
-                                    <input type="text" name='email' className='form-control' required onChange={handleState} value={email} />
-
+                                    <label htmlFor="servico" className='form-label' >Serviço</label>
+                                    <input type="text" name='servico' className='form-control' required onChange={handleState} value={servico} />
                                 </div>
                                 <div className='col-6'>
-                                    <label htmlFor="email" className='form-label' >Data</label>
-                                    <input type="date" name='email' className='form-control' required onChange={handleState} value={data} />
+                                    <label htmlFor="cliente" className='form-label' >Cliente</label>
+                                    <input type="text" name='cliente' className='form-control' required onChange={handleState} value={servico} />
                                 </div>
                                 <div className='col-6'>
-                                    <label htmlFor="email" className='form-label' >Horario</label>
-                                    <input type="time" name='email' className='form-control' required onChange={handleState} value={horario} />
-
+                                    <label htmlFor="data_hora" className='form-label' >Data e hora</label>
+                                    <input type="datetime-local" name='data_hora' className='form-control' required onChange={handleState} value={data_hora} />
                                 </div>
                                 <div className='col-12'>
                                     <button type='submit' className='btn btn-success btn-sm'>Atualizar</button>

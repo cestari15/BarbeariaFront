@@ -3,6 +3,7 @@ export interface ServicoCadastroInterface{
     nome:string;
     duracao:string;
     descricao:string;
-    preco:number
+    preco:number;
+    tipo_pagamento:string;
 
 }

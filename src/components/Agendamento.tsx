@@ -4,13 +4,14 @@ import React,{Component, useState, ChangeEvent, FormEvent, useEffect} from "reac
 
 import styles from "../App.module.css";
 
-import {ProfissionalCadastroInterface} from '../interfaces/ProfissionalCadastroInterface';
+
+import { AgendaCadstroInterface } from "../interfaces/AgendaCadastroInterface";
 import { Link, useNavigate } from "react-router-dom";
 
 const Agenda = ()=>{
     console.log(Response)
 
-    const [profissional,setProfissional]=useState<ProfissionalCadastroInterface[]>([]);
+    const [agenda,setAgenda]=useState<AgendaCadstroInterface[]>([]);
     const [error,setError]=useState("");
     const   navigate = useNavigate();
 
@@ -20,8 +21,8 @@ const Agenda = ()=>{
     useEffect(() =>{
         async function fetchData(){
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/profissional/retornarTodos');
-                setProfissional(response.data.data)
+                const response = await axios.get('http://127.0.0.1:8000/api/agenda/all');
+                setAgenda(response.data.data)
             } catch (error){
                 setError("Ocorreu um erro");
                 console.log(error);
@@ -43,22 +44,26 @@ const Agenda = ()=>{
                         <table className='table table-hover'>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Celular</th>
-                                    <th>E-mail</th>
+                                    <th>ID</th>                 
+                                    <th>Horário e Data</th>
+                                    <th>Cliente</th>
+                                    <th>Serviço</th>
+                                    <th>Preço</th>
+                                    <th>Tipo de Pagamento</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {profissional.map(profissional => (
-                                    <tr key={profissional.id}>
-                                        <td>{profissional.id}</td>
-                                        <td>{profissional.nome}</td>
-                                        <td>{profissional.celular}</td>
-                                        <td>{profissional.email}</td>
+                                {agenda.map(agenda => (
+                                    <tr key={agenda.id}>
+                                        <td>{agenda.id}</td>
+                                        <td>{agenda.data_hora}</td>
+                                        <td>{agenda.cliente}</td>
+                                        <td>{agenda.servico}</td>
+                                        <td>{agenda.valor}</td>
+                                        <td>{agenda.tipo_pagamento}</td>
                                         <td>
-                                        <Link to={"/editar/agenda/profissional/"+ profissional.id} className='btn btn-primary btn-sm'>Agendar</Link>
+                                        <Link to={"/editar/agenda/profissional/"+ agenda.id} className='btn btn-primary btn-sm'>Agendar</Link>
                                         </td>
                                     </tr>
                                 ))}
