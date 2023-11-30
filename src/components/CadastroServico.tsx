@@ -9,6 +9,12 @@ const CadastroServico = () => {
     const [duracao, setDuracao] = useState<string>("");
     const [preco, setPreco] = useState<string>();
 
+
+   
+    const [nomeErro, setNomeErro] = useState<string>("");
+    const [descricaoErro, setDescricaoErro] = useState<string>("");
+    const [duracaoErro, setDuracaoErro] = useState<string>("");
+    const [precoErro, setPrecoErro] = useState<string>("");
     const cadastrarServico = (e: FormEvent) => {
         e.preventDefault();
 
@@ -60,20 +66,23 @@ const CadastroServico = () => {
                                 <div className='col-6'>
                                     <label htmlFor="nome" className='form-label'>Nome</label>
                                     <input type="text" name='nome' className='form-control' required onChange={handleState} />
+                                    <div className='text-danger'>{nomeErro}</div>
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="descricao" className='form-label' >Descrição</label>
                                     <input type="text" name='descricao' className='form-control' required onChange={handleState} />
-
+                                    <div className='text-danger'>{descricaoErro}</div>
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="duracao" className='form-label'>Duração</label>
                                     <input type="text" name='duracao' className='form-control' required onChange={handleState} />
+                                    <div className='text-danger'>{duracaoErro}</div>
                                 </div>
                                 <div className='col-6'>
                                     <label htmlFor="preco" className='form-label'>Preço</label>
                                     <input type="number" name='preco' className='form-control' required onChange={handleState} />
-                                </div>
+                                    <div className='text-danger'>{precoErro}</div>  
+                                </div>                              
                                 <div className='col-12'>
                                     <button type='submit' className='btn btn-success btn-sm'>Cadastrar</button>
                                 </div>
