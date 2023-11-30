@@ -21,7 +21,7 @@ const CadastroClientes = () => {
     const [complemento, setComplemento]= useState<string>("");
     const [password, setPassword]= useState<string>("");
 
-    
+
     const [celularErro, setCelularErro] = useState<string>("");
     const [nomeErro, setNomeErro] = useState<string>("");
     const [dataNascimentoErro, setDataNascimentoErro] = useState<string>("");
@@ -220,8 +220,8 @@ console.log(dados)
                                     <div className='text-danger'>{nomeErro}</div>
                                 </div>
                                 <div className='col-6'>
-                                    <label htmlFor="ecelularail" className='form-label' >Celular</label>
-                                    <input type="text" name='celular' className='form-control'required  onChange={handleState}/>
+                                    <label htmlFor="celular" className='form-label' >Celular</label>
+                                    <input type="tel" name='celular' className='form-control'required  onChange={handleState}/>
                                     <div className='text-danger'>{celularErro}</div>
                                 </div>
                                 <div className='col-6'>
